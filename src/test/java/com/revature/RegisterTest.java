@@ -64,27 +64,29 @@ public class RegisterTest {
      */
     @Test
     public void validRegistrationTest() throws InterruptedException {
-        WebElement nameInput = driver.findElement(By.id("username-input"));
-        WebElement passwordInput = driver.findElement(By.id("password-input"));
-        WebElement passwordRepeatInput = driver.findElement(By.id("repeat-password-input"));
-        WebElement submitButton = driver.findElement(By.id("register-button"));
+    WebElement nameInput = driver.findElement(By.id("username-input"));
+    WebElement emailInput = driver.findElement(By.id("email-input")); 
+    WebElement passwordInput = driver.findElement(By.id("password-input"));
+    WebElement passwordRepeatInput = driver.findElement(By.id("repeat-password-input"));
+    WebElement submitButton = driver.findElement(By.id("register-button"));
 
-        // Mock successful registration response
-        mockServerClient
-                .when(HttpRequest.request().withMethod("POST").withPath("/register"))
-                .respond(HttpResponse.response()
-                        .withStatusCode(201)
-                        .withHeader("Content-Type", "application/json")
-                        .withHeader("Access-Control-Allow-Origin", "*"));
+    // Mock successful registration response
+    mockServerClient
+            .when(HttpRequest.request().withMethod("POST").withPath("/register"))
+            .respond(HttpResponse.response()
+                    .withStatusCode(201)
+                    .withHeader("Content-Type", "application/json")
+                    .withHeader("Access-Control-Allow-Origin", "*"));
 
-        nameInput.sendKeys("correct");
-        passwordInput.sendKeys("correct");
-        passwordRepeatInput.sendKeys("correct");
-        submitButton.click();
+    nameInput.sendKeys("correct");
+    emailInput.sendKeys("correct@example.com"); 
+    passwordInput.sendKeys("correct");
+    passwordRepeatInput.sendKeys("correct");
+    submitButton.click();
 
-        Thread.sleep(1000);
-        assertTrue(driver.getCurrentUrl().contains("login"));
-    }
+    Thread.sleep(1000);
+    assertTrue(driver.getCurrentUrl().contains("login"));
+}
 
     /**
      * Test for failed registration due to duplicate account, which should display
